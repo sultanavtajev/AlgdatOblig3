@@ -119,23 +119,23 @@ public class SBinTre<T> {
     }
 
     public int antall(T verdi) {
-        if (verdi == null) {
+        if(verdi == null)
             return 0;
-        }
 
-        Node<T> p = rot;
         int antall = 0;
 
-        while (p != null) {
+        Node<T> p = rot;
+
+        while(p != null) {
+
             int cmp = comp.compare(verdi, p.verdi);
-            if (cmp < 0) {
-                p = p.venstre;
-            } else {
-                if (cmp == 0) {
+            if(cmp < 0) p = p.venstre;
+            else{
+                if(cmp == 0)
                     antall++;
-                    p = p.høyre;
-                }
+                p = p.høyre;
             }
+
         }
         return antall;
         //throw new UnsupportedOperationException("Ikke kodet ennå!");
@@ -171,6 +171,16 @@ public class SBinTre<T> {
 
     static <K> SBinTre<K> deserialize(ArrayList<K> data, Comparator<? super K> c) {
         throw new UnsupportedOperationException("Ikke kodet ennå!");
+    }
+
+    public static void main(String[] args) {
+        Integer[] a = {4,7,2,9,4,10,8,7,4,6};
+        SBinTre<Integer> tre = new SBinTre<>(Comparator.naturalOrder());
+        for (int verdi : a) { tre.leggInn(verdi); }
+        System.out.println(tre.antall(5)); // Utskrift: 0
+        System.out.println(tre.antall(4)); // Utskrift: 3
+        System.out.println(tre.antall(7)); // Utskrift: 2
+        System.out.println(tre.antall(10)); // Utskrift: 1
     }
 
 
