@@ -371,7 +371,12 @@ public class SBinTre<T> {
     }
 
     static <K> SBinTre<K> deserialize(ArrayList<K> data, Comparator<? super K> c) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        SBinTre<K> tre = new SBinTre<>(c); //Etablerer nytt binærtre med comparator
+        for (K verdi : data) { //Traverserer treet og legger til verdi hver gang vi finner en ny verdi.
+                    tre.leggInn(verdi);
+        }
+        return tre; //Returner
+        //throw new UnsupportedOperationException("Ikke kodet ennå!");
     }
 
     public static void main(String[] args) {
