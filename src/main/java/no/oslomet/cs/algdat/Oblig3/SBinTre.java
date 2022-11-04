@@ -180,12 +180,12 @@ public class SBinTre<T> {
         Node<T> p = rot;
         int n = 0;
 
-        while(p != null) {
+        while (p != null) {
             int cmp = comp.compare(verdi, p.verdi);
 
-            if(cmp < 0)
+            if (cmp < 0)
                 p = p.venstre;
-            else if(cmp > 0)
+            else if (cmp > 0)
                 p = p.høyre;
             else {
                 // Vi lagrer alle referanser som er lik verdien vi ønsker på.
@@ -195,25 +195,25 @@ public class SBinTre<T> {
         }
 
         // Dersom inneholdet i kø er større enn 0, har vi funnet verdi(er) i treet.
-        while(kø.size() > 0) {
+        while (kø.size() > 0) {
             p = kø.pop();
 
             Node<T> q = p.forelder;
 
-            if(p.venstre == null || p.høyre == null) {
+            if (p.venstre == null || p.høyre == null) {
                 Node<T> b = p.venstre != null ? p.venstre : p.høyre;
 
-                if(p == rot) {
+                if (p == rot) {
                     rot = b;
-                    if(b != null)
+                    if (b != null)
                         b.forelder = null;
-                } else if(q.venstre == p) {
+                } else if (q.venstre == p) {
                     q.venstre = b;
-                    if(b != null)
+                    if (b != null)
                         b.forelder = q;
                 } else {
                     q.høyre = b;
-                    if(b != null)
+                    if (b != null)
                         b.forelder = q;
                 }
 
@@ -223,19 +223,19 @@ public class SBinTre<T> {
                 Node<T> r = p.høyre;
                 Node<T> s = p;
 
-                while(r.venstre != null) {
+                while (r.venstre != null) {
                     s = r;
                     r = r.venstre;
                 }
 
                 p.verdi = r.verdi;
 
-                if(s != p)
+                if (s != p)
                     s.venstre = r.høyre;
                 else
                     s.høyre = r.høyre;
 
-                if(r.høyre != null)
+                if (r.høyre != null)
                     r.høyre.forelder = s;
 
                 r.forelder = r.høyre = null;
@@ -275,7 +275,7 @@ public class SBinTre<T> {
     }
 
     public void nullstill() {
-        if(rot != null) {
+        if (rot != null) {
 
             nullstill(rot);
 
@@ -299,11 +299,11 @@ public class SBinTre<T> {
     private static <T> Node<T> førstePostorden(Node<T> p) {
         Objects.requireNonNull(p); //Sjekker om p er "null" verdi
 
-        while(true){
-            if(p.venstre !=null){
-                p=p.venstre; //p sin venstrebarn
-            } else if (p.høyre!=null){
-                p=p.høyre; //p sin høyrebarn
+        while (true) {
+            if (p.venstre != null) {
+                p = p.venstre; //p sin venstrebarn
+            } else if (p.høyre != null) {
+                p = p.høyre; //p sin høyrebarn
             } else {
                 return p; //Returner p
             }
@@ -314,10 +314,10 @@ public class SBinTre<T> {
     private static <T> Node<T> nestePostorden(Node<T> p) {
         Node<T> a = p.forelder; //Setter a til p sin forelder
 
-        if (a==null){
+        if (a == null) {
             return null; //Returner null hvis det ikke er nestePostorden.
         }
-        if (a.høyre==p || a.høyre==null){
+        if (a.høyre == p || a.høyre == null) {
             return a; //Returner forelder hvis a sin høyrebarn=p eller =null
         } else {
             return førstePostorden(a.høyre); //Kaller på førstePostorden
@@ -330,7 +330,7 @@ public class SBinTre<T> {
 
         Node<T> forste = førstePostorden(p);
         oppgave.utførOppgave(forste.verdi);
-        while(forste.forelder!=null){
+        while (forste.forelder != null) {
             forste = nestePostorden(forste);
             oppgave.utførOppgave(Objects.requireNonNull(forste.verdi));
         }
@@ -342,12 +342,12 @@ public class SBinTre<T> {
     }
 
     private void postordenRecursive(Node<T> p, Oppgave<? super T> oppgave) {
-        if (p ==null){
+        if (p == null) {
             return; //Returner
         }
 
-        postordenRecursive(p.venstre,oppgave); //Rekursivt p sitt venstrebarn
-        postordenRecursive(p.høyre,oppgave); //Rekursivt p sitt høyrebarn
+        postordenRecursive(p.venstre, oppgave); //Rekursivt p sitt venstrebarn
+        postordenRecursive(p.høyre, oppgave); //Rekursivt p sitt høyrebarn
         oppgave.utførOppgave(p.verdi); //Oppgaven kjøres
         //throw new UnsupportedOperationException("Ikke kodet ennå!");
     }
@@ -358,7 +358,7 @@ public class SBinTre<T> {
         queue.add(rot); //Legger in "rot" først
         while (!queue.isEmpty()) { //Sjekk at treet ikk er tomt
             Node<T> p = queue.remove(); //Laster inn verdier fra "toppen" av køen
-                    subTre.add(p.verdi); //Legger overnevnte verdier inn i arrayet
+            subTre.add(p.verdi); //Legger overnevnte verdier inn i arrayet
             if (p.venstre != null) { //Sjekk venstrebarn og legg evt inn i køen
                 queue.add(p.venstre);
             }
@@ -373,23 +373,9 @@ public class SBinTre<T> {
     static <K> SBinTre<K> deserialize(ArrayList<K> data, Comparator<? super K> c) {
         SBinTre<K> tre = new SBinTre<>(c); //Etablerer nytt binærtre med comparator
         for (K verdi : data) { //Traverserer treet og legger til verdi hver gang vi finner en ny verdi.
-                    tre.leggInn(verdi);
+            tre.leggInn(verdi);
         }
         return tre; //Returner
         //throw new UnsupportedOperationException("Ikke kodet ennå!");
     }
-
-    public static void main(String[] args) {
-        Integer[] a = {4, 7, 2, 9, 4, 10, 8, 7, 4, 6};
-        SBinTre<Integer> tre = new SBinTre<>(Comparator.naturalOrder());
-        for (int verdi : a) {
-            tre.leggInn(verdi);
-        }
-        System.out.println(tre.antall(5)); // Utskrift: 0
-        System.out.println(tre.antall(4)); // Utskrift: 3
-        System.out.println(tre.antall(7)); // Utskrift: 2
-        System.out.println(tre.antall(10)); // Utskrift: 1
-    }
-
-
 } // ObligSBinTre
