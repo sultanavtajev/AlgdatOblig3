@@ -353,7 +353,21 @@ public class SBinTre<T> {
     }
 
     public ArrayList<T> serialize() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        ArrayList<T> subTre = new ArrayList<>(); //Etabler array
+        Queue<Node<T>> queue = new LinkedList<>(); // Etabler kø av binær-treet
+        queue.add(rot); //Legger in "rot" først
+        while (!queue.isEmpty()) { //Sjekk at treet ikk er tomt
+            Node<T> p = queue.remove(); //Laster inn verdier fra "toppen" av køen
+                    subTre.add(p.verdi); //Legger overnevnte verdier inn i arrayet
+            if (p.venstre != null) { //Sjekk venstrebarn og legg evt inn i køen
+                queue.add(p.venstre);
+            }
+            if (p.høyre != null) { //Sjekk høyrebarn og legg evt inn i køen
+                queue.add(p.høyre);
+            }
+        }
+        return subTre; //Returnerer array
+        //throw new UnsupportedOperationException("Ikke kodet ennå!");
     }
 
     static <K> SBinTre<K> deserialize(ArrayList<K> data, Comparator<? super K> c) {
